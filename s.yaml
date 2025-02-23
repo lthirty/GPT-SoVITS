@@ -34,7 +34,7 @@ resources:
         entrypoint:
           - python
         command:
-          - inference_webui.py
+          - webui.py
         port: 9874
       instanceType: c1
       runtime: custom-container
