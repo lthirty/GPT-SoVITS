@@ -7,16 +7,6 @@ vars:
   functionName: gpt-sovits-75c0e4
   download_path: /mnt/${vars.functionName}
 
-template:
-  SoVITS-Template:
-    internetAccess: true
-    vpcConfig: auto
-
-flow:
-  deploy:
-    - run-gpt-sovits, gpt-sovits-api
-    - gpt-sovits-service-domain
-
 resources:
   run-gpt-sovits:
     component: fc3
@@ -42,7 +32,6 @@ resources:
           - cd /code/GPT-SoVITS
           - pip install -r requirements.txt
         artifact: /code
-    extend: SoVITS-Template
 
   gpt-sovits-api:
     component: fc3
@@ -78,7 +67,6 @@ resources:
               - PUT
               - DELETE
               - OPTIONS
-    extend: SoVITS-Template
 
   gpt-sovits-service-domain:
     component: fc3-domain
@@ -91,3 +79,10 @@ resources:
           - path: /*
             functionName: ${vars.functionName}
             qualifier: LATEST
+
+# 修正后的 flow 部分
+flow:
+  deploy:
+    - run-gpt-sovits
+    - gpt-sovits-api
+    - gpt-sovits-service-domain
